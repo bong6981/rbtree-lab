@@ -17,22 +17,6 @@ rbtree *new_rbtree(void) {
   return p;
 }
 
-//삭제예정
-void print_nodes(rbtree *t, node_t *node) {
-   if (node == t->nil) {
-    return;
-  }
-
-  print_nodes(t, node->left);
-  printf("key : %d, color : %d\n", node->key, node->color);
-  print_nodes(t, node->right);
-}
-
-//삭제예정
-void print_rbtree(rbtree *t) {
-  print_nodes(t, t->root);
-}
-
 void delete_nodes(rbtree *t, node_t *node) {
 
   if (node == t->nil) {
