@@ -4,6 +4,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void erase_case4_1(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 20);
+  node_t *to_del = rbtree_insert(t, 10);
+  rbtree_insert(t, 25);
+  rbtree_insert(t, 30);
+  rbtree_insert(t, 35);
+
+  rbtree_erase(t, to_del);
+
+  delete_rbtree(t);
+}
+
+void erase_case4_2(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  node_t *to_del = rbtree_insert(t, 20);
+  rbtree_insert(t, 10);
+  rbtree_insert(t, 8);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 6);
+  rbtree_erase(t, to_del);
+  delete_rbtree(t);
+}
+
+void insert_duplicate(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 10);
+  rbtree_insert(t, 9);
+  rbtree_insert(t, 11);
+  rbtree_insert(t, 10);
+  delete_rbtree(t);
+}
+
+void insert_case1_test2(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 10);
+  rbtree_insert(t, 9);
+  rbtree_insert(t, 11);
+  delete_rbtree(t);
+}
+
+void insert_case1_test1(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 10);
+  rbtree_insert(t, 9);
+  rbtree_insert(t, 5);
+  delete_rbtree(t);
+}
+
+void insert_case2_test2(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 10);
+  rbtree_insert(t, 9);
+  delete_rbtree(t);
+}
+
+void insert_case2_test(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 1);
+  rbtree_insert(t, 2);
+  delete_rbtree(t);
+}
+
+void right_rotate_test(void) {
+  rbtree *t = new_rbtree();
+  printf("color BLACK: %d\n", RBTREE_BLACK);
+  rbtree_insert(t, 7);
+  rbtree_insert(t, 2);
+  rbtree_insert(t, 1);
+  delete_rbtree(t);
+}
+
 // new_rbtree should return rbtree struct with null root node
 void test_init(void) {
   rbtree *t = new_rbtree();
@@ -24,7 +108,7 @@ void test_insert_single(const key_t key) {
   assert(p != NULL);
   assert(t->root == p);
   assert(p->key == key);
-  // assert(p->color == RBTREE_BLACK);  // color of root node should be black
+  assert(p->color == RBTREE_BLACK);  // color of root node should be black
 #ifdef SENTINEL
   assert(p->left == t->nil);
   assert(p->right == t->nil);
@@ -49,7 +133,7 @@ void test_find_single(const key_t key, const key_t wrong_key) {
 
   q = rbtree_find(t, wrong_key);
   assert(q == NULL);
-
+  
   delete_rbtree(t);
 }
 
@@ -318,7 +402,7 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
 
   for (int i = 0; i < n; i++) {
     node_t *p = rbtree_find(t, arr[i]);
-    // printf("arr[%d] = %d\n", i, arr[i]);
+    printf("arr[%d] = %d\n", i, arr[i]);
     assert(p != NULL);
     assert(p->key == arr[i]);
     rbtree_erase(t, p);
@@ -368,11 +452,23 @@ void test_find_erase_rand(const size_t n, const unsigned int seed) {
 }
 
 int main(void) {
+  // 만든 test, 출력해서 확인용 
+  right_rotate_test();
+  insert_case2_test();
+  insert_case2_test2();
+  insert_case1_test1();
+  insert_case1_test2();
+  insert_duplicate();
+  erase_case4_1();
+  erase_case4_2();
+
   test_init();
   test_insert_single(1024);
   test_find_single(512, 1024);
+
   test_erase_root(128);
   test_find_erase_fixed();
+
   test_minmax_suite();
   test_to_array_suite();
   test_distinct_values();
