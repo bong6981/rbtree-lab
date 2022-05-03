@@ -367,17 +367,21 @@ int rbtree_erase(rbtree *t, node_t *p) {
   return 0;
 }
 
-// void travel_in_order(rbtree *t, key_t *ret, node_t *node, int* idx) {
-//    if (node == t->nil) {
-//     return;
-//   }
-  
-//   // print_nodes(t, node->left);
-//   // printf("key : %d, color : %d\n", node->key, node->color);
-//   // print_nodes(t, node->right);
-// }
+int travel_in_order(const rbtree *t, key_t *ret, node_t *node, int idx) {
+  if (node == t->nil) {
+    idx -= 1;
+    return idx;
+  }
+
+  idx = travel_in_order(t, ret, node->left, idx);
+  idx += 1;
+  ret[idx] = node->key;
+  idx += 1;
+  idx = travel_in_order(t, ret, node->right, idx);
+  return idx;
+}
 
 int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
-  // travel_in_order(t, arr, t->root, 0);
+  travel_in_order(t, arr, t->root, 0);
   return 0;
 }
