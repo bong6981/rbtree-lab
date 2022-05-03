@@ -241,6 +241,15 @@ node_t *rbtree_min(const rbtree *t) {
   return cur;
 }
 
+node_t *rbtree_max(const rbtree *t) {
+  node_t *cur = t->root;
+  while(cur->right != t->nil) 
+  {
+    cur = cur->right;
+  }
+  return cur;
+}
+
 void rbtree_erase_fix(rbtree *t, node_t *p) {
   while (p != t->root && p->color == RBTREE_BLACK) 
   {
